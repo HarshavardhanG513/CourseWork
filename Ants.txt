@@ -1,0 +1,55 @@
+import java.util.*;
+class ants
+{
+    public static void main(int n1,int n2,int time)
+    {
+        char[]row1=createRow(n1,'A');
+        char[]row2=createRow(n2,(char)(row1[n1-1]+1));
+        char[]ants=new char[n1+n2];
+        if(time>n2)
+        {
+            System.out.println("Time is too large");
+            return;
+        }
+        for(int i=n1;i<ants.length;i++)
+        {
+            ants[i]=row2[i-n1];
+        }
+        for(int i=1;i<=n1;i++)
+        {
+            if(time>0)
+            {
+                shift(ants,(n1-i)+time);
+                ants[(n1-i)+time]=row1[i-1];
+                time--;
+            }
+            else
+            {
+                shift(ants,(n1-i));
+                ants[n1-i]=row1[i-1];
+            }
+        }
+        for(int i=0;i<ants.length;i++)
+            System.out.print(ants[i]);
+    }
+
+    public static char[] shift(char[]array,int maxindex)
+    {
+        for(int i=0;i<maxindex;i++)
+        {
+            array[i]=array[i+1];
+        }
+        array[maxindex]='\u0000';
+        return array;
+    }
+
+    public static char[] createRow(int size,char start)
+    {
+        char[]row=new char[size];
+        for(int i=0;i<row.length;i++)
+        {
+            row[i]=(char)(start+i);
+        }
+        return row;
+    }
+}

@@ -1,0 +1,56 @@
+import java.util.*;
+class bipaetite
+{
+    public static boolean isBipartite(String str)
+    {
+        while(str.substring(0,1).equals("0"))//removes 0s a start
+            str=str.substring(1);
+
+        if(difCount(str)!=2)return false;//only 2 ditinct numbers
+        String s=str.substring(0,1);
+        String t=(str.replace(s,"")).substring(0,1);
+        if(str.lastIndexOf(s)<str.indexOf(t))
+            return true;
+        else 
+            return false;
+    }
+
+    public static int difCount(String s)
+    {
+        int count=0;
+        while(!s.equals(""))
+        {
+            s=s.replaceAll(s.substring(0,1),"");
+            count++;
+        }
+        return count;
+    }
+
+    public static String simplify(String s)
+    {
+        int count=1;
+        char[] array=s.toCharArray();
+        char c='a';
+        for(int i=1;i<array.length;i++)
+        {
+            if(array[i]==array[0])
+                count++;
+            else 
+                c=array[i];
+        }
+        String str=count+" "+array[0]+" "+(s.length()-count)+" "+c;
+        return str;
+    }
+
+    public static void main(String[]args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter a positive number");
+        int input=sc.nextInt();int store=input;
+        while(!(isBipartite(Integer.toString(store))&&(store%input==0)))
+        {
+            store++;
+        }
+        System.out.println(simplify(Integer.toString(store)));
+    }
+}

@@ -1,0 +1,91 @@
+import java.util.*;
+class gameOfTurns
+{
+    public static void main(int playerno,int turns)
+    {
+        char[] players=new char[playerno];
+        for(int i=0;i<players.length;i++)
+        {
+            players[i]=(char)(i+65);
+        }
+        int[]count=new int[playerno];
+        boolean finished=false;char loser='A';
+        int last=0;
+        while(finished==false)
+        {
+            for(int i=0+last,j=0;j<turns;i++,j++)
+            {
+                count[i%players.length]+=1;
+                loser=players[i%players.length];
+                last=i%players.length;
+            }
+            System.out.println("End of round:");
+            display(players,count);
+            players=removeLoser(players,loser);
+            count=removeLoser(count,index(players,loser));
+            System.out.println("\nAfter elimination of "+loser);
+            display(players,count);
+            finished=equal(count);
+            System.out.println("\n------------------------------------");
+        }
+        display(players,count);
+    }
+    public static int index(char[]players,char player)//gets index of the loser to remove it
+    {
+        for(int i=0;i<players.length;i++)
+        {
+            if(players[i]==player)
+                return i;
+        }
+        return 0;
+    }
+    public static void display(char[]players,int[] turns)//displays scores
+    {
+        System.out.println("Players: ");
+        for(int i=0;i<players.length;i++)
+        {
+            System.out.print(players[i]+" ");
+        }
+        System.out.println("\nCount: ");
+        for(int i=0;i<turns.length;i++)
+        {
+            System.out.print(turns[i]+" ");
+        }
+    }
+
+    public static boolean equal(int[] array)//checks if scores are equal
+    {
+        for(int i=1;i<array.length;i++)
+        {
+            if(array[i]!=array[0])
+                return false;
+        }
+        return true;
+    }
+
+    public static char[]removeLoser(char[] players,char player)//removes the loser's name 
+    {
+        char[] array=new char[players.length-1];
+        for(int i=0,j=0;i<players.length;i++,j++)
+        {
+            if(players[i]!=player)
+                array[j]=players[i];
+            else
+                j=j-1;
+        }
+        return array;
+    }
+
+    public static int[]removeLoser(int[] turns,int player)//removes the count of the loser
+    {
+        int[] array=new int[turns.length-1];
+        for(int i=0,j=0;i<turns.length;i++,j++)
+        {
+            if(i!=(player))
+                array[j]=turns[i];
+            else
+                j=j-1;
+        }
+        return array;
+    }
+}

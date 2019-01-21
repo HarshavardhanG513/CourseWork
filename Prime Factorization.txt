@@ -1,0 +1,31 @@
+class primeFactorize
+{
+    public static String primeFactors(int n)
+    {
+        if(isPrime(n))
+            return Integer.toString(n);
+        String s="";
+        for(int i=2;i<=n;i++)
+        {
+            if((n%i==0)&&(isPrime(i)))
+            {
+                s+=i+" x "+primeFactors(n/i);
+                break;
+            }
+        }
+        return s;
+    }
+   
+    public static boolean isPrime(int n)
+    {
+        if(n<2)return false;
+        for(int i=2;i<n/2+1;i++)
+        {
+            if(n%i==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}

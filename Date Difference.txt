@@ -1,0 +1,100 @@
+import java.util.*;
+class dateDif
+{
+    public static boolean isLeapYear(int input)
+    {
+        if((input%100!=0)&&(input%4==0))return true;
+        else if((input%100==0)&&(input%400==0))return true;
+        else return false;
+    }
+
+    public static int dateDif(int day1,int month1,int year1,int day2,int month2,int year2)
+    {
+        int yearDif=yearDif(year1,year2);
+        int monthDif=monthDif(month1,month2);
+        int dayDif=dayDif(day1,day2);
+        int days=year1>year2?yearDif+monthDif+dayDif:yearDif-monthDif-dayDif;
+        days=days<0?-1*days:days;
+        if(year1>year2)
+        {
+            if((isLeapYear(year1))&&((month1>2)||((month1==2)&&(day1<29))))
+                days+=1;
+        }else if(year2>year1)
+        {
+            if((isLeapYear(year2))&&((month2>2)||((month2==2)&&(day2<29))))
+                days+=1;
+        }else
+        {
+            if(month1>month2)
+            {
+                if(isLeapYear(year1)&&((month2<=2)&&((month1>2)||((month1==2)&&(day1==29)))))
+                    days+=1;
+            }else if(month2>month1)
+            {
+                if(isLeapYear(year1)&&((month1<=2)&&((month2>2)||((month2==2)&&(day2==29)))))
+                    days+=1;
+            }
+        }
+        return days;
+    }
+
+    public static void main(String[]args)
+    {
+        int[] array1=getDate();
+        int[] array2=getDate();
+        System.out.println("There is a difference of "+dateDif(array1[0],array1[1],array1[2],array2[0],array2[1],array2[2])+" days");
+    }
+    public static int[] getDate()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter a date in the format dd/mm/yyyy");
+        String date= sc.next();
+        String[] s=date.split("/");
+        int[] array=new int[s.length];
+        for(int i=0;i<array.length;i++)
+        {
+            array[i]=Integer.parseInt(s[i]);
+        }
+        return array;
+    }
+    public static int dayDif(int day1,int day2)
+    {
+        return (day1-day2);
+    }
+
+    public static int monthDif(int month1,int month2)
+    {
+        int[] month={31,28,31,30,31,30,31,31,30,31,30,31};
+        int days=0;int store=0;
+        if(month1>month2)
+        {
+            store=month1;
+            month1=month2;
+            month2=store;
+        }
+        for(;month1<month2;month1++)
+        {
+            days=days+month[month1-1];
+        }
+        return store==0?-1*days:days;
+    }
+
+    public static int yearDif(int year1,int year2)
+    {
+        int days=0;
+        if(year1>year2)
+        {
+            int store=year1;
+            year1=year2;
+            year2=store;
+        }
+        for(;year1<year2;year1++)
+        {
+            if(isLeapYear(year1))
+                days=days+366;
+            else    
+                days=days+365;
+        }
+        return days;
+    }
+}

@@ -1,0 +1,107 @@
+/**
+class name: prime
+ 
+ Author: Harshavardhan.G
+ Date: 
+ Functions:
+ *  boolean isPrime(int input): to check if the input given is prime
+       * start by assuming that input is prime
+       * go from 2 (the first prime number) till half of the input (after half pairs will just repeat)
+       * if any of them can perfectly divide (remainder=0) the input, number isn't prime
+       
+       * Sample Input: 5
+         Output: true
+       * Sample Input: 7
+         Output: true
+       * Sample Input: 4
+         Output: false
+
+ *  void cyclicPrime(int input): check if input is a cyclic prime. A cyclic prime is a number where all possible clockwise rotations of digits are prime
+        * example: 1193 is a cyclic prime because 1193,1931,9311, and 3119 are all prime numbers 
+        * start by assuming input is a cyclic prime
+        * take first digit and put it in the back
+        * check if it is prime
+        * do this as many times as the number of digits in the input
+        * if any of them aren't prime stop and print that its not a cyclic prime
+
+ *  void twinPrime(int input): to print all twin prime pairs till the input. A twin prime pair is a pair of prime numbers with a difference 2
+        * example: 3,5 is a twin prime pair because both 3 and 5 are prime and differ by 2
+        * start from 2 and go till input-2
+        * for each cycle check if both the current number and number+2 are primes
+        * if so print the pair
+         
+ *  void lemoinesConjencture(int input): to print all no. which follow the Lemoine's Conjecture till the input. The Lemoine's Conjecture is when a prime no. = sum of 2* a prime no. + a prime no. 
+        * example: 7 = 2*2 + 3
+        * according to the conjecture, the number must be greater than 5 so lets start there and go till the input
+        * only if the number is prime, proceed;
+        * inside start from 1 till half of the number(because its 2*)
+        * if the inside number is prime, check if number - 2*inside number is prime
+        * if so it follows the conjencture, so print the equation  
+ */class prime
+{
+    public static void cyclicPrime(int input)
+    {
+        String s= Integer.toString(input);//convert to string
+        boolean b=true;//start by assuming it is a cyclic prime
+        for(int i=0;i<s.length();i++)
+        {
+            if(i!=0)//except for the first one
+            {
+                s=s.substring(1)+s.charAt(0);//take 1st digit and put it in the end
+            }
+            if(isPrime(Integer.parseInt(s))==false)//check if the number is prime
+            {
+                b=false;break;//if not change b to false
+            }
+        }
+        if(b==true)
+            System.out.println("Cyclic Prime");//if b is still true, it is cyclic prime
+        else
+            System.out.println("Not a Cyclic Prime");//if it has changed, then it is not.
+    }
+
+    static boolean isPrime(int input)
+    {
+        boolean b=true;//assume no. is prime
+        if(input<2)return false;
+        for(int i =2;i<=(input+1)/2;i++)//start with 2 and go till half of the no.
+        {
+            if(input%i==0)
+            {
+                b=false;break;//if input is divisible, b becomes false
+            }
+        }
+        return b;//return true if prime and false if composite
+    }
+
+    public static void twinPrime(int input)
+    {
+        for(int i=2;i<=input-2;i++)//starts from two 
+        {
+            if((isPrime(i))&&(isPrime(i+2)))//if both i and i+2 are prime
+                System.out.println(i+","+(i+2));//print the pair
+        }
+    }
+
+    public static void lemoinesConjecture(int input)
+    {
+        int store=0;//example 7=3+(2*2) or 11=5+(2*3) note: all no. are prime
+        for(int i=5;i<=input;i++)//i starts from 5 and goes on till input
+        {
+            if(isPrime(i))//only if i is prime, proceed
+            {
+                for(int j=1;j<i/2;j++)//j is the prime that is multiplied by 2
+                {   
+                    if(isPrime(j))//if j is prime, proceed
+                    {
+                        store=2*j;
+                        if(isPrime(i-store))//if the no to be added is prime, print
+                        {
+                            System.out.println(i+" = "+(i-store)+" + 2*"+j);
+                        }   
+                    }
+                }
+            }
+        }
+    }
+}

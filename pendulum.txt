@@ -1,0 +1,63 @@
+import java.util.*;
+class Pendulum
+{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter some numbers in one line separated by space");
+        String s=sc.nextLine();
+        int[] input = input(s);//takes string input and gives it as array 
+        input=sort(input);//sorts the array
+        int[] pendulum = new int[input.length];
+        int mid=pendulum.length%2==0?pendulum.length/2 -1:(pendulum.length-1)/2;
+        pendulum[mid]=input[0];
+        for(int i=1,j=1;i<=mid;i++,j=j+2)
+        {
+            pendulum[mid-i]=input[j+1];
+            pendulum[mid+i]=input[j];
+        }
+        if(pendulum.length%2==0)
+        {
+            pendulum[pendulum.length-1]=input[input.length-1];
+        }
+        display(pendulum);//prints the array
+    }
+
+    public static int[] input(String s)
+    {
+        String[] store=s.split(" ");
+        int[] array=new int[store.length];
+        for(int i=0;i<array.length;i++)
+        {
+            array[i]=Integer.parseInt(store[i]);
+        }
+        return array;
+    }
+
+    public static int[] sort(int[] array)
+    {
+        int store=0;
+        for(int i=0;i<array.length;i++)
+        {
+            for(int j=i;j<array.length;j++)
+            {
+                if(array[i]>array[j])
+                {
+                    store=array[j];
+                    array[j]=array[i];
+                    array[i]=store;
+                }
+            }
+        }
+        return array;
+    }
+
+    public static void display(int[] array)
+    {
+        System.out.println();
+        for(int i=0;i<array.length;i++)
+        {
+            System.out.print(array[i]+" ");
+        }
+    }
+}

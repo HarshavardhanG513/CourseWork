@@ -1,0 +1,53 @@
+import java.util.*;
+class encryption
+{
+    public static int[] XOrencrypt(String text,String key)
+    {
+        int[] array=new int[text.length()];
+        int[] keySeq=genKeySeq(key,text.length());
+        for(int i=0;i<array.length;i++)
+        {
+            array[i]=((int)text.charAt(i)^keySeq[i])+'0';           
+        }
+        return array;
+    }
+
+    public static String XOrdecrypt(int[] array,String key)
+    {
+        int[] keySeq=genKeySeq(key,array.length);
+        String s="";
+        for(int i=0;i<array.length;i++)
+        {
+            s+=(char)((array[i]-48)^keySeq[i]);
+        }
+        return s;
+    }
+
+    public static int[] genKeySeq(String key,int length)
+    {
+        int[] array=new int[length];
+        for(int i=0,index=0;i<array.length;i++)
+        {
+            array[i]=(int)key.charAt(index++);
+            if(index==key.length())
+                index=0;
+        }
+        return array;
+    }
+
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter a string");
+        String text=sc.nextLine();
+        System.out.println("Enter key");
+        String key=sc.next();
+        int [] encrypted=XOrencrypt(text,key);
+        for(int i=0;i<encrypted.length;i++)
+        {
+            System.out.print((char)(encrypted[i])+"^");
+        }
+        String decrypted=XOrdecrypt(encrypted,key);
+        System.out.println("\n"+decrypted);
+    }
+}

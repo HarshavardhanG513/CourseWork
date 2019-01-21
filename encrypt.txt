@@ -1,0 +1,55 @@
+import java.util.*;
+class enryption
+{
+    public static void decrypt(String encrypted,int shift)
+    {
+        if((shift>26)||(shift<1))
+        {
+            System.out.println("Shift value must be between 1 and 26");
+            return;
+        }
+        encrypted=encrypted.toUpperCase();
+        encrypted=encrypted.replace(" ","");
+        String space=encrypted.substring(encrypted.length()-2);
+        encrypted=encrypted.replaceAll(space," ");    
+        String[] array=encrypted.split("");
+        for(int i=0;i<array.length-1;i++)//length-1 because extra space at the end
+        {
+            if(!array[i].equals(" "))
+            {
+                if((int)array[i].charAt(0)>='Z'-shift+1)
+                    array[i]=Character.toString((char)('A'+array[i].charAt(0)-('Z'-shift+1)-1));//subtract encrypted value of Z from char and add it to A
+                else
+                    array[i]=Character.toString((char)(array[i].charAt(0)+shift-1));//otherwise just subt
+            }
+            System.out.print(array[i]);
+        }
+    }
+
+    public static void encrypt(String text,int shift)
+    {
+        if((shift>26)||(shift<1))
+        {
+            System.out.println("Shift value must be between 1 and 26");
+            return;
+        }
+        String encrypted=text.toUpperCase()+" ";
+        encrypted=encrypted.replace(" ","QQ");
+        String[] array=encrypted.split("");
+        encrypted="";
+        for(int i=0;i<array.length;i++)
+        {
+            if((int)array[i].charAt(0)<65+shift-1)
+                array[i]=Character.toString((char)('Z'-(shift)+1+(array[i].charAt(0)-65+1)));//shift term from last and add 1 for A,2 for B and so on
+            else
+                array[i]=Character.toString((char)(array[i].charAt(0)-shift+1));//else subtract shift-1 from char
+            encrypted+=array[i];
+        }
+        for(int i=0;i<encrypted.length();i++)
+        {
+            System.out.print(encrypted.charAt(i));
+            if((i+1)%6==0)
+                System.out.print(" ");
+        }
+    }
+}

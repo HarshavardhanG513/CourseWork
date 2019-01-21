@@ -1,0 +1,74 @@
+import java.lang.*;
+class numbers
+{
+    public static void pronicNo(int input)//if a no. is a product of consecutive integers
+    {
+        for(int i=-1;i<input;i++)//starts from -1 because its all integers but anyting before -1 will be multiplied with a - no, to give a + no, which is taken care by the + integers
+        {
+            if(i*(i+1)==input)
+            {
+                System.out.println(input+" is a Pronic Number");
+                return;
+            }
+        }
+        System.out.println(input+" is not a Pronic Number");
+    }
+    public static void harshadNo(int input)//if no. is divisible by sum of its digits
+    {
+        int sum=0;
+        String s=Integer.toString(input);
+        for(int i=0;i<s.length();i++)//find sum of digits
+        {
+            sum+=Character.getNumericValue(s.charAt(i));
+        }
+        if(input%sum==0)
+            System.out.println(input+" is a Harshad Number");
+        else
+            System.out.println(input+" is not a Harshad Number");
+    }
+    public static void fascinatingNo(int input)//if a no. when multiplied by 1,2,3 and concatenated have 1 to 9 exactly once
+    {
+        boolean b=true;//assume no. is fascinatong no.
+        String s=Integer.toString(input)+Integer.toString(2*input)+Integer.toString(3*input);//concat all of them to a string
+        s=s.replaceAll("0","");//remove all the 0s
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.substring(i+1).contains(Character.toString(s.charAt(i))))//if the char occurs again, no. isnt fascinating
+                b=false;
+        }
+        if((b==true)&&(s.length()==9))//if length is 9 (1 to 9 (cant be anything else)) and numbers dont occur more than once
+            System.out.println(input+" is a Fascinating Number");
+        else
+            System.out.println(input+" is not a Fascinating Number");
+    }
+    public static void disariumNo(int input)//if no. is sum of digit to the power of corresponding position
+    {
+        int sum=0;
+        String s=Integer.toString(input);
+        for(int i=0;i<s.length();i++)
+        {
+            sum+=Math.pow(Character.getNumericValue(s.charAt(i)),i+1);//add digit to the corresponding power to sum
+        }
+        if(sum==input)
+            System.out.println(input+" is a Disarium Number");
+        else
+            System.out.println(input+" is not a Disarium Number");
+    }
+    public static void evilNo(int input)//if no. of 1s in binary is even
+    {
+        int store=input;
+        int count=0;
+        String s="";
+        while(input>0)
+        {
+            s=(input%2) + s;//get remainder and add it to the front of the string, so you dont have to reverse string
+            count+=(input%2);//only if remainder is 1 will count increase
+            input=input/2;//divide number by two;
+        }
+        System.out.println("Binary equivalent of "+store+" is "+s);
+        if(count%2==0)//if count is even
+            System.out.println(store+" is an evil number");
+        else 
+            System.out.println(store+" is not an evil number");
+    }
+}

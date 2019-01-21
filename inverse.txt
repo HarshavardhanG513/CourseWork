@@ -1,0 +1,144 @@
+import java.util.*;
+import java.lang.*;
+class inverse
+{
+    public static double det(double[][] matrix)//assuming matrix is square
+    {
+        double det=0;
+        if(matrix.length==1)
+        {
+            return matrix[0][0];
+        }else if(matrix.length==2)
+        {
+            return (matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0]);
+        }else
+        {
+            for(int i=0;i<matrix[0].length;i++)
+            {
+                if(i%2==0)
+                {
+                    det+=matrix[0][i]*det(smallerMatrix(matrix,0,i));
+                }else
+                {
+                    det-=matrix[0][i]*det(smallerMatrix(matrix,0,i));
+                }
+            }
+        }
+        return det;
+    }
+
+    public static void main(double[][]matrix)
+    {
+        //Scanner sc=new Scanner(System.in);
+        //System.out.println("Enter no. of rows");
+        //int size=sc.nextInt();
+        //double[][] matrix=new double[size][size];
+        //for(int i=0;i<matrix.length;i++)
+        {
+            //    System.out.println("Enter elements for row "+(i+1));
+            //    for(int j=0;j<matrix[0].length;j++)
+            {
+                //        matrix[i][j]=sc.nextDouble();
+            }
+        }
+        double determinant=det(matrix);
+        System.out.println("Determinant is "+determinant);
+        if(determinant!=0)
+        {
+            double[][]minor=minor(matrix);
+            double[][]cofactor=cofactor(minor);
+            double[][]transpose=transpose(cofactor);
+            double[][]inverse = multiply(transpose,1/determinant);
+            System.out.println("Inverse is :");
+            display(inverse);
+        }
+        else
+            System.out.println("No inverse as determinant is 0");
+    }
+
+    public static void display(double[][] matrix)
+    {
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                if(matrix[i][j]<0)
+                    System.out.printf("%.2f ",matrix[i][j]);
+                else
+                    System.out.printf(" %.2f ",matrix[i][j]);
+            }
+            System.out.println("");
+        }
+    }
+
+    public static double[][] multiply(double[][] matrix,double scalar)
+    {
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0,l=0;j<matrix[0].length;j++)
+            {
+                matrix[i][j]*=scalar;
+            }
+        }
+        return matrix;
+    }
+
+    public static double[][] smallerMatrix(double[][] matrix,int rowNum,int colNum)
+    {
+        double[][] store=new double[matrix.length-1][matrix[0].length-1];
+        for(int i=0,r=0;i<matrix.length;i++)
+        {
+            if(i!=rowNum)
+            {
+                for(int j=0,c=0;j<matrix[0].length;j++)
+                {
+                    if(j==colNum)continue;
+                    store[r][c]=matrix[i][j];
+                    c++;
+                }
+                r++;
+            }
+        }
+        return store;
+    }
+
+    public static double[][] transpose(double[][]matrix)
+    {
+        double[][]transpose=new double[matrix.length][matrix.length];
+        for(int i=0;i<matrix[0].length;i++)
+        {
+            for(int j=0;j<matrix.length;j++)
+            {
+                transpose[i][j]=matrix[j][i];
+            }
+        }
+        return transpose;
+    }
+
+    public static double[][] minor(double[][]matrix)
+    {
+        double minor[][]=new double[matrix.length][matrix.length];
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                minor[i][j]=det(smallerMatrix(matrix,i,j));
+                minor[i][j]=(minor[i][j]==-0)?0:minor[i][j];
+            }
+        }
+        return minor;
+    }
+
+    public static double[][] cofactor(double[][]matrix)
+    {
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                if((i+j)%2==1)
+                    matrix[i][j]*=-1;
+            }
+        }
+        return matrix;
+    }
+}
